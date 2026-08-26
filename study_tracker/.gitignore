@@ -1,0 +1,13 @@
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+
+# SQLite Database files
+study_tracker.db
+*.db
+*.sqlite
+*.sqlite3
+
+# Local test / env files
+.env
+.pytest_cache/
