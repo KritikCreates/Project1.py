@@ -24,16 +24,16 @@ class StudyTrackerApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Personal Study Tracker")
-        self.root.geometry("1080x700")
-        self.root.minsize(900, 620)
+        self.root.geometry("1100x720")
+        self.root.minsize(920, 640)
 
         # Clean modern color palette
-        self.bg_color = "#f1f5f9"       # Soft slate background
-        self.card_bg = "#ffffff"        # Clean white card background
-        self.primary_color = "#2563eb"   # Royal blue for primary actions
-        self.danger_color = "#dc2626"    # Red for delete actions
-        self.text_dark = "#0f172a"       # Dark slate text
-        self.text_muted = "#64748b"      # Muted subtext
+        self.bg_color = "#f1f5f9"        # Soft slate background
+        self.card_bg = "#ffffff"         # Clean white card background
+        self.primary_color = "#2563eb"    # Royal blue for primary actions
+        self.danger_color = "#dc2626"     # Red for delete actions
+        self.text_dark = "#0f172a"        # Dark slate text
+        self.text_muted = "#64748b"       # Muted subtext
         
         self.root.configure(bg=self.bg_color)
 
@@ -101,15 +101,14 @@ class StudyTrackerApp:
         )
 
         # Configure Combobox and Entry widgets
-        self.style.configure("TCombobox", padding=5, font=("Segoe UI", 10))
-        self.style.configure("TEntry", padding=5, font=("Segoe UI", 10))
+        self.style.configure("TCombobox", padding=4, font=("Segoe UI", 10))
+        self.style.configure("TEntry", padding=4, font=("Segoe UI", 10))
 
     def _create_header(self):
         """Creates the top header banner."""
-        header_frame = tk.Frame(self.root, bg=self.bg_color, pady=10, padx=20)
+        header_frame = tk.Frame(self.root, bg=self.bg_color, pady=8, padx=20)
         header_frame.pack(fill="x")
 
-        # App Title & Subtitle
         title_label = tk.Label(
             header_frame,
             text="📚 Personal Study Tracker",
@@ -130,7 +129,7 @@ class StudyTrackerApp:
 
     def _create_dashboard(self):
         """Creates the 4 KPI summary cards at the top."""
-        dashboard_frame = tk.Frame(self.root, bg=self.bg_color, padx=20, pady=5)
+        dashboard_frame = tk.Frame(self.root, bg=self.bg_color, padx=20, pady=4)
         dashboard_frame.pack(fill="x")
 
         # 4 Card Configurations: (Title, Icon, Top Accent Color)
@@ -143,7 +142,6 @@ class StudyTrackerApp:
 
         self.kpi_labels = {}
 
-        # 4 equal width columns
         for i in range(4):
             dashboard_frame.columnconfigure(i, weight=1, uniform="kpi")
 
@@ -155,16 +153,14 @@ class StudyTrackerApp:
                 relief="solid",
                 highlightthickness=1,
                 highlightbackground="#e2e8f0",
-                padx=14,
-                pady=10
+                padx=12,
+                pady=8
             )
-            card.grid(row=0, column=idx, padx=6, pady=4, sticky="nsew")
+            card.grid(row=0, column=idx, padx=5, pady=2, sticky="nsew")
 
-            # Colored accent bar on top of the card
             accent_bar = tk.Frame(card, bg=accent, height=3)
-            accent_bar.pack(fill="x", side="top", pady=(0, 6))
+            accent_bar.pack(fill="x", side="top", pady=(0, 4))
 
-            # Header row with title & icon
             top_row = tk.Frame(card, bg=self.card_bg)
             top_row.pack(fill="x")
 
@@ -177,7 +173,6 @@ class StudyTrackerApp:
             )
             t_lbl.pack(side="left")
 
-            # Value label (large text)
             val_lbl = tk.Label(
                 card,
                 text="--",
@@ -185,13 +180,13 @@ class StudyTrackerApp:
                 bg=self.card_bg,
                 fg=self.text_dark
             )
-            val_lbl.pack(anchor="w", pady=(4, 0))
+            val_lbl.pack(anchor="w", pady=(2, 0))
 
             self.kpi_labels[title] = val_lbl
 
     def _create_main_content(self):
         """Creates the split view containing the input form and the session history table."""
-        main_container = tk.Frame(self.root, bg=self.bg_color, padx=20, pady=10)
+        main_container = tk.Frame(self.root, bg=self.bg_color, padx=20, pady=8)
         main_container.pack(fill="both", expand=True)
 
         # Left Column: Add Study Session Form
@@ -199,7 +194,7 @@ class StudyTrackerApp:
             main_container,
             bg=self.card_bg,
             padx=16,
-            pady=16,
+            pady=14,
             highlightbackground="#e2e8f0",
             highlightthickness=1
         )
@@ -210,7 +205,7 @@ class StudyTrackerApp:
             main_container,
             bg=self.card_bg,
             padx=16,
-            pady=16,
+            pady=14,
             highlightbackground="#e2e8f0",
             highlightthickness=1
         )
@@ -228,12 +223,12 @@ class StudyTrackerApp:
             bg=self.card_bg,
             fg=self.text_dark
         )
-        form_title.pack(anchor="w", pady=(0, 12))
+        form_title.pack(anchor="w", pady=(0, 8))
 
         # 1. Date Input
         tk.Label(parent, text="Date (YYYY-MM-DD)*", font=("Segoe UI", 9, "bold"), bg=self.card_bg, fg=self.text_dark).pack(anchor="w")
         date_row = tk.Frame(parent, bg=self.card_bg)
-        date_row.pack(fill="x", pady=(2, 10))
+        date_row.pack(fill="x", pady=(2, 8))
 
         self.entry_date = ttk.Entry(date_row, textvariable=self.var_date, font=("Segoe UI", 10), width=18)
         self.entry_date.pack(side="left", fill="x", expand=True)
@@ -252,15 +247,15 @@ class StudyTrackerApp:
         )
         btn_today.pack(side="left", padx=(6, 0))
 
-        # 2. Subject Input (Editable Combobox with preset and custom support)
+        # 2. Subject Input
         tk.Label(parent, text="Subject / Course*", font=("Segoe UI", 9, "bold"), bg=self.card_bg, fg=self.text_dark).pack(anchor="w")
         self.combo_subject = ttk.Combobox(parent, textvariable=self.var_subject, values=self.default_subjects, font=("Segoe UI", 10))
-        self.combo_subject.pack(fill="x", pady=(2, 10))
+        self.combo_subject.pack(fill="x", pady=(2, 8))
 
         # 3. Topic / Chapter Input
         tk.Label(parent, text="Topic / Concept*", font=("Segoe UI", 9, "bold"), bg=self.card_bg, fg=self.text_dark).pack(anchor="w")
         self.entry_topic = ttk.Entry(parent, textvariable=self.var_topic, font=("Segoe UI", 10))
-        self.entry_topic.pack(fill="x", pady=(2, 10))
+        self.entry_topic.pack(fill="x", pady=(2, 8))
         self.entry_topic.bind("<Return>", lambda e: self.handle_add_session())
 
         # 4. Duration Input (in minutes) + Quick preset chips
@@ -271,7 +266,7 @@ class StudyTrackerApp:
 
         # Quick preset duration buttons (25m, 45m, 60m, 90m)
         presets_frame = tk.Frame(parent, bg=self.card_bg)
-        presets_frame.pack(fill="x", pady=(0, 10))
+        presets_frame.pack(fill="x", pady=(0, 8))
 
         preset_mins = [("25m", 25), ("45m", 45), ("60m", 60), ("90m", 90)]
         for label, val in preset_mins:
@@ -292,14 +287,14 @@ class StudyTrackerApp:
 
         # 5. Short Notes
         tk.Label(parent, text="Notes / Key Takeaways", font=("Segoe UI", 9, "bold"), bg=self.card_bg, fg=self.text_dark).pack(anchor="w")
-        self.txt_notes = tk.Text(parent, height=4, font=("Segoe UI", 9), relief="solid", bd=1, highlightthickness=1, wrap="word")
+        self.txt_notes = tk.Text(parent, height=3, font=("Segoe UI", 9), relief="solid", bd=1, highlightthickness=1, wrap="word")
         self.txt_notes.config(highlightbackground="#cbd5e1")
-        self.txt_notes.pack(fill="x", pady=(2, 14))
+        self.txt_notes.pack(fill="x", pady=(2, 12))
 
-        # Action Buttons (Add Session & Clear Form)
-        btn_add = tk.Button(
+        # Action Buttons: Prominent Save Study Session & Clear Form
+        btn_save = tk.Button(
             parent,
-            text="➕  Add Study Session",
+            text="➕  Save Study Session",
             font=("Segoe UI", 10, "bold"),
             bg=self.primary_color,
             fg="#ffffff",
@@ -307,10 +302,10 @@ class StudyTrackerApp:
             activeforeground="#ffffff",
             relief="flat",
             cursor="hand2",
-            pady=7,
+            pady=8,
             command=self.handle_add_session
         )
-        btn_add.pack(fill="x", pady=(0, 6))
+        btn_save.pack(fill="x", pady=(0, 6))
 
         btn_clear = tk.Button(
             parent,
@@ -330,7 +325,7 @@ class StudyTrackerApp:
         """Builds the session history table and action controls on the right panel."""
         # Top Header row with title & search bar
         table_top = tk.Frame(parent, bg=self.card_bg)
-        table_top.pack(fill="x", pady=(0, 10))
+        table_top.pack(fill="x", pady=(0, 8))
 
         self.table_title = tk.Label(
             table_top,
@@ -397,7 +392,7 @@ class StudyTrackerApp:
         self.tree.bind("<Double-1>", self._on_row_double_click)
 
         # Bottom Action Bar
-        action_bar = tk.Frame(parent, bg=self.card_bg, pady=8)
+        action_bar = tk.Frame(parent, bg=self.card_bg, pady=6)
         action_bar.pack(fill="x")
 
         btn_delete = tk.Button(
@@ -426,7 +421,7 @@ class StudyTrackerApp:
             cursor="hand2",
             padx=12,
             pady=5,
-            command=self.refresh_all
+            command=self.handle_manual_refresh
         )
         btn_refresh.pack(side="left", padx=(8, 0))
 
@@ -483,9 +478,12 @@ class StudyTrackerApp:
 
     # ------------------ EVENT HANDLERS & LOGIC ------------------
 
-    def handle_add_session(self):
-        """Validates form data and adds a new study session to the SQLite database."""
-        # Retrieve values directly from widgets or string variables
+    def handle_add_session(self, show_popup=True):
+        """
+        Validates form inputs, inserts the session into SQLite, commits,
+        automatically refreshes dashboard & table, resets the form,
+        and provides instant success confirmation.
+        """
         date_raw = self.entry_date.get().strip() or self.var_date.get().strip()
         subject_val = self.combo_subject.get().strip() or self.var_subject.get().strip()
         topic_val = self.entry_topic.get().strip() or self.var_topic.get().strip()
@@ -498,7 +496,7 @@ class StudyTrackerApp:
                 "Missing Information",
                 "Please fill in all required fields:\n• Date\n• Subject\n• Topic\n• Duration"
             )
-            return
+            return False
 
         # 2. Validation: Date normalization & validity
         try:
@@ -509,10 +507,9 @@ class StudyTrackerApp:
                 f"{ve}\n\nExample of valid date: {dt_date.today().isoformat()}"
             )
             self.entry_date.focus_set()
-            return
+            return False
 
         # 3. Validation: Duration integer parsing
-        # Strip optional user suffixes like 'mins', 'min', 'm'
         clean_dur = re.sub(r'(?i)\s*(mins?|m|minutes?)$', '', duration_raw).strip()
         try:
             duration_int = int(clean_dur)
@@ -526,9 +523,9 @@ class StudyTrackerApp:
                 "Study duration must be a positive whole number of minutes (between 1 and 1440).\n\nExamples: 25, 45, 60, 90"
             )
             self.entry_duration.focus_set()
-            return
+            return False
 
-        # Save to SQLite Database
+        # 4. Save to SQLite Database & Commit
         try:
             new_id = database.add_session(
                 date=date_val,
@@ -544,12 +541,25 @@ class StudyTrackerApp:
                 current_subjects.append(subject_val)
                 self.combo_subject["values"] = current_subjects
 
-            self.set_status(f"✅ Logged session #{new_id} ({subject_val} - {duration_int}m) successfully!")
-            self.handle_clear_form(preserve_date=True)
+            # Clear search filter to ensure newly added item is immediately visible
+            self.var_search.set("")
+
+            # 5. Form Reset: Reset form fields back to defaults
+            self.handle_clear_form(preserve_date=False)
+
+            # 6. Automatic Refresh: Immediately refresh dashboard stats and history table
             self.refresh_all()
+
+            # 7. Status and confirmation message
+            success_msg = f"Study session #{new_id} ({subject_val} - {duration_int}m) saved successfully!"
+            self.set_status(f"✅ {success_msg}")
+            if show_popup:
+                messagebox.showinfo("Success", "Study session saved successfully!")
+            return True
 
         except Exception as e:
             messagebox.showerror("Database Error", f"Failed to save study session:\n{e}")
+            return False
 
     def handle_delete_session(self):
         """Deletes the selected session from the table and SQLite database."""
@@ -581,9 +591,8 @@ class StudyTrackerApp:
                 messagebox.showerror("Database Error", f"Failed to delete session:\n{e}")
 
     def handle_clear_form(self, preserve_date=False):
-        """Resets all input fields in the form."""
-        if not preserve_date:
-            self._set_today_date()
+        """Resets all input fields in the form without touching database records."""
+        self._set_today_date()
         self.var_subject.set("")
         self.combo_subject.set("")
         self.var_topic.set("")
@@ -595,8 +604,13 @@ class StudyTrackerApp:
         if not preserve_date:
             self.set_status("Form reset.")
 
+    def handle_manual_refresh(self):
+        """Explicit manual refresh button handler."""
+        self.refresh_all()
+        self.set_status("🔄 List and dashboard refreshed from database.")
+
     def refresh_all(self):
-        """Reloads all data from the database and updates both dashboard KPIs and history table."""
+        """Reloads fresh data from SQLite and updates both dashboard KPIs and history table."""
         self.update_dashboard()
         self.populate_table()
 
@@ -612,8 +626,7 @@ class StudyTrackerApp:
             self.set_status(f"⚠️ Error updating dashboard: {e}")
 
     def populate_table(self):
-        """Loads all sessions into the Treeview widget."""
-        # Clear existing rows in tree
+        """Loads all sessions from SQLite into the Treeview widget."""
         for item in self.tree.get_children():
             self.tree.delete(item)
 
